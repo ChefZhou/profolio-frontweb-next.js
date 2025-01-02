@@ -1,49 +1,48 @@
-import { Box, Typography, Chip } from "@mui/material";
+import { Box } from "@mui/material";
 import Link from "next/link";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import { StyledPaper } from "./styled/StyledPaper";
+import { StyledPaper } from "./StyledPaper";
+import ArticleImage from "./ArticleImage";
+import ArticleMetadata from "./ArticleMetadata";
+import ArticleTitle from "./ArticleTitle";
 
+// 文章卡片組件：展示文章預覽信息
 export default function ArticleCard({ article }) {
+  if (!article) return null;
+
   return (
-    <Link href={article.link} style={{ textDecoration: "none" }}>
+    <Link href={`/article/${article.slug}`} style={{ textDecoration: "none" }}>
       <StyledPaper sx={{ p: 3 }}>
-        <Typography variant="h5" sx={{ color: "primary.main", mb: 2 }}>
-          {article.title}
-        </Typography>
-
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          {article.description}
-        </Typography>
-
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: 2,
+            gap: 3,
+            alignItems: "flex-start",
+            height: "140px",
           }}
         >
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <Chip
-              icon={<LocalOfferIcon />}
-              label={article.category}
-              size="small"
-              color="primary"
-              variant="outlined"
-            />
-            <Chip
-              icon={<AccessTimeIcon />}
-              label="5 min read"
-              size="small"
-              variant="outlined"
+          {/* 左側文章信息區 */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+            }}
+          >
+            <ArticleTitle title={article.title} variant="card" />
+            <ArticleMetadata
+              category={article.category}
+              createdAt={article.createdAt}
             />
           </Box>
 
-          <Typography variant="caption" color="text.secondary">
-            {article.date}
-          </Typography>
+          {/* 右側圖片區 */}
+          <ArticleImage
+            thumbnail={article.thumbnail}
+            title={article.title}
+            variant="card"
+          />
         </Box>
       </StyledPaper>
     </Link>

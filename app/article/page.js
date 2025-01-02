@@ -1,20 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { articles } from "../config/articles";
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography, Chip, CircularProgress } from "@mui/material";
 import ArticleList from "../components/articleComponents/ArticleList";
+import ArticleAPI from "../api/articleAPI";
 
 function Page() {
   const [selectedCategory, setSelectedCategory] = useState("全部");
+  const { articles, isLoading, error } = ArticleAPI();
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", pt: 20 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ pt: 12, textAlign: "center" }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+
   const categories = [
     "全部",
-    ...new Set(articles.map((article) => article.category)),
+    ...new Set(
+      articles
+        .filter((article) => article?.attributes?.category)
+        .map((article) => article.attributes.category)
+    ),
   ];
+
   const filteredArticles =
     selectedCategory === "全部"
       ? articles
-      : articles.filter((article) => article.category === selectedCategory);
+      : articles.filter(
+          (article) => article?.attributes?.category === selectedCategory
+        );
 
   return (
     <Box
@@ -30,7 +55,7 @@ function Page() {
         <Typography
           variant="h3"
           sx={{
-            color: "text.primary", // 改為黑色
+            color: "text.primary",
             fontWeight: "bold",
             mb: 2,
             fontFamily: "Orbitron",

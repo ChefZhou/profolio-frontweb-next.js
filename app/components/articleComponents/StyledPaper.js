@@ -1,16 +1,17 @@
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import { TRANSITIONS, SHADOWS, SIZES } from "../../styles/constants";
 
 export const StyledPaper = styled(Paper)`
   position: relative;
-  transition: all 0.3s ease;
+  transition: ${TRANSITIONS.default};
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: ${SIZES.borderRadius.large};
   cursor: pointer;
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: ${SHADOWS.hover};
   }
 
   &::before {
