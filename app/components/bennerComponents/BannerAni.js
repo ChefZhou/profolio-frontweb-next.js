@@ -13,6 +13,7 @@ function ThreeJSBanner() {
   const letterMeshes = useRef([]);
   const originalPositions = useRef([]);
   const isReturning = useRef(false);
+  const text = "BOOM!";
 
   // 事件處理函數
   const handleMouseMove = (event) => {
@@ -45,7 +46,7 @@ function ThreeJSBanner() {
     try {
       const letterSize = 3;
       const letterSpacing = 4;
-      const textLength = "BOOM!".length;
+      const textLength = text.length;
       const totalWidth =
         textLength * letterSize +
         (textLength - 1) * (letterSpacing - letterSize);
@@ -119,7 +120,6 @@ function ThreeJSBanner() {
       (font) => {
         if (!containerRef.current) return;
 
-        const text = "BOOM!";
         const materials = [
           new THREE.MeshPhysicalMaterial({
             color: 0xff4500,
