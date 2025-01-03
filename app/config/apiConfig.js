@@ -11,5 +11,5 @@ const apiConfig = {
     articles: "/articles",
   },
 };
-console.log("Authorization:", apiConfig.headers.Authorization);
+
 export default apiConfig;
