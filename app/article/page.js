@@ -83,7 +83,13 @@ function Page() {
       </Box>
 
       {/* 文章列表 */}
-      <ArticleList articles={filteredArticles} />
+      <Box
+        sx={{
+          mb: 8,
+        }}
+      >
+        <ArticleList articles={filteredArticles} />
+      </Box>
     </Box>
   );
 }

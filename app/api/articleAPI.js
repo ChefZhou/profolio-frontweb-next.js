@@ -25,7 +25,6 @@ const ArticleAPI = () => {
           throw new Error("資料結構不正確");
         }
 
-        // 直接使用原始資料，不做轉換
         setArticles(response.data.data);
         setError(null);
       } catch (err) {

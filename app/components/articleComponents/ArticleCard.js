@@ -17,16 +17,16 @@ export default function ArticleCard({ article }) {
             display: "flex",
             gap: 3,
             alignItems: "flex-start",
-            height: "140px",
+            minHeight: "140px",
           }}
         >
-          {/* 左側文章信息區 */}
+          {/* 左側：標題、標籤和摘要區 */}
           <Box
             sx={{
               flex: 1,
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              gap: 2,
               height: "100%",
             }}
           >
@@ -35,9 +35,24 @@ export default function ArticleCard({ article }) {
               category={article.category}
               createdAt={article.createdAt}
             />
+            {article.summary && (
+              <Box
+                sx={{
+                  color: "text.secondary",
+                  fontSize: "0.9rem",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {article.summary}
+              </Box>
+            )}
           </Box>
 
-          {/* 右側圖片區 */}
+          {/* 右側：文章縮圖 */}
           <ArticleImage
             thumbnail={article.thumbnail}
             title={article.title}
