@@ -11,9 +11,16 @@ export const useArticle = (slug) => {
     const fetchArticle = async () => {
       try {
         setIsLoading(true);
+        const encodedSlug = encodeURIComponent(slug);
         const response = await axios.get(
-          `${apiConfig.baseURL}${apiConfig.apiPath}${apiConfig.endpoints.articles}?filters[slug][$eq]=${slug}&populate=*`,
-          { headers: apiConfig.headers }
+          `${apiConfig.baseURL}${apiConfig.apiPath}${apiConfig.endpoints.articles}`,
+          {
+            params: {
+              "filters[slug][$eq]": encodedSlug,
+              populate: "*",
+            },
+            headers: apiConfig.headers,
+          }
         );
 
         if (!response.data?.data?.[0]) {
@@ -23,8 +30,8 @@ export const useArticle = (slug) => {
         setArticle(response.data.data[0]);
         setError(null);
       } catch (err) {
-        console.error("錯誤詳情:", err);
-        setError("無法載入文章");
+        console.error("錯誤詳情:", err.response?.data || err.message);
+        setError(err.response?.data?.error?.message || "無法載入文章");
       } finally {
         setIsLoading(false);
       }

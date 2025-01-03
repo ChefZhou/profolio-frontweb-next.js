@@ -12,8 +12,13 @@ const ArticleAPI = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `${apiConfig.baseURL}${apiConfig.apiPath}${apiConfig.endpoints.articles}?populate=*`,
-          { headers: apiConfig.headers }
+          `${apiConfig.baseURL}${apiConfig.apiPath}${apiConfig.endpoints.articles}`,
+          {
+            params: {
+              populate: "*",
+            },
+            headers: apiConfig.headers,
+          }
         );
 
         if (!response.data?.data) {
