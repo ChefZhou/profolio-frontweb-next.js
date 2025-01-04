@@ -1,90 +1,55 @@
-import ReactMarkdown from "react-markdown";
-import { Box, Typography, styled } from "@mui/material";
+import parse from "html-react-parser";
+import { Box } from "@mui/material";
+import { StyledContent } from "./styles/StyledContent";
+import { ImageRenderer, processMarkdownImage } from "./ImageRenderer";
+import { processLists } from "./ListProcessor";
 
-const StyledContent = styled(Box)(({ theme }) => ({
-  "& h1": {
-    fontSize: "2rem",
-    fontWeight: "bold",
-    marginBottom: theme.spacing(3),
-    color: theme.palette.text.primary,
-  },
-  "& h2": {
-    fontSize: "1.75rem",
-    fontWeight: "bold",
-    marginBottom: theme.spacing(2.5),
-    color: theme.palette.text.primary,
-  },
-  "& h3": {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    marginBottom: theme.spacing(2),
-    color: theme.palette.text.primary,
-  },
-  "& p": {
-    fontSize: "1.1rem",
-    lineHeight: 1.8,
-    marginBottom: theme.spacing(2),
-    color: theme.palette.text.secondary,
-  },
-  "& ul, & ol": {
-    marginBottom: theme.spacing(2),
-    paddingLeft: theme.spacing(3),
-  },
-  "& li": {
-    marginBottom: theme.spacing(1),
-    color: theme.palette.text.secondary,
-  },
-  "& blockquote": {
-    borderLeft: `4px solid ${theme.palette.primary.main}`,
-    paddingLeft: theme.spacing(2),
-    margin: theme.spacing(2, 0),
-    fontStyle: "italic",
-    color: theme.palette.text.secondary,
-  },
-  "& code": {
-    backgroundColor: theme.palette.action.hover,
-    padding: theme.spacing(0.5, 1),
-    borderRadius: theme.shape.borderRadius,
-    fontFamily: "monospace",
-  },
-  "& pre": {
-    backgroundColor: theme.palette.action.hover,
-    padding: theme.spacing(2),
-    borderRadius: theme.shape.borderRadius,
-    overflow: "auto",
-    marginBottom: theme.spacing(2),
-    "& code": {
-      backgroundColor: "transparent",
-      padding: 0,
-    },
-  },
-  "& a": {
-    color: theme.palette.primary.main,
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
-  "& img": {
-    maxWidth: "100%",
-    height: "auto",
-    borderRadius: theme.shape.borderRadius,
-    marginBottom: theme.spacing(2),
-  },
-  "& hr": {
-    border: "none",
-    height: "1px",
-    backgroundColor: theme.palette.divider,
-    margin: theme.spacing(3, 0),
-  },
-}));
-
+/**
+ * 文章內容渲染組件
+ * @param {string} content - Markdown 格式的文章內容
+ */
 export default function ArticleContent({ content }) {
   if (!content) return null;
 
-  return (
-    <StyledContent>
-      <ReactMarkdown>{content}</ReactMarkdown>
-    </StyledContent>
-  );
+  /**
+   * 內容處理主函數
+   * 處理順序：1.圖片 2.列表
+   */
+  const processContent = (content) => {
+    let processedContent = content;
+    processedContent = processMarkdownImage(processedContent);
+    processedContent = processLists(processedContent);
+    return processedContent;
+  };
+
+  const parseOptions = {
+    replace: (domNode) => {
+      if (domNode.type === "tag" && domNode.name === "img") {
+        // 檢查前後節點是否也是圖片
+        const prevNode = domNode.prev;
+        const nextNode = domNode.next;
+        const isInSequence =
+          prevNode?.name === "img" || nextNode?.name === "img";
+
+        return (
+          <Box
+            sx={{
+              display: isInSequence ? "inline-flex" : "block",
+              gap: 2,
+              justifyContent: "center",
+            }}
+          >
+            <ImageRenderer
+              src={domNode.attribs.src}
+              alt={domNode.attribs.alt}
+              isInSequence={isInSequence}
+            />
+          </Box>
+        );
+      }
+    },
+  };
+
+  const processedContent = processContent(content);
+  return <StyledContent>{parse(processedContent, parseOptions)}</StyledContent>;
 }

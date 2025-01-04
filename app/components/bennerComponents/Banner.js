@@ -14,7 +14,7 @@ const Banner = () => {
       component="section"
       sx={{
         position: "relative",
-        minHeight: { xs: "calc(100vh - 64px)", sm: "calc(100vh - 128px)" },
+        minHeight: { xs: "calc(100vh - 100px)", sm: "calc(100vh - 164px)" },
         background: "#ffffff",
         overflow: "hidden",
         display: "flex",

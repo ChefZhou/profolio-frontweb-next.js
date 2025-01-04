@@ -2,7 +2,11 @@ import { Box, Chip, Typography } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-export default function ArticleMetadata({ category, createdAt, sx = {} }) {
+/**
+ * 文章元數據元件
+ * 顯示文章分類標籤和發布時間
+ */
+export default function ArticleMetadata({ category, createdAt }) {
   return (
     <Box
       sx={{ display: "flex", gap: 2, alignItems: "center", flexWrap: "wrap" }}
@@ -14,8 +18,8 @@ export default function ArticleMetadata({ category, createdAt, sx = {} }) {
         color="primary"
         variant="outlined"
       />
-      <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
-        {new Date(createdAt).toLocaleDateString("zh-TW")}
+      <Typography variant="caption" color="text.secondary">
+        {new Date(createdAt).toLocaleDateString()}
       </Typography>
     </Box>
   );

@@ -1,29 +1,22 @@
 import { Box } from "@mui/material";
 import { SIZES } from "../../styles/constants";
 
-// 文章圖片組件：根據不同場景展示不同尺寸的圖片
+/**
+ * 文章圖片組件
+ * @param {object} thumbnail - 圖片資料，支援多種格式：陣列、物件或直接URL
+ * @param {string} title - 圖片標題，用於alt屬性
+ * @param {string} variant - 顯示模式，可選："card" 或 "detail"
+ */
 export default function ArticleImage({ thumbnail, title, variant = "card" }) {
-  // 處理多種可能的縮圖數據格式
   const thumbnailData = Array.isArray(thumbnail)
     ? thumbnail[0]
     : thumbnail?.data?.attributes || thumbnail;
 
-  // 根據不同場景選擇最適合的圖片尺寸
   const getImageUrl = () => {
-    if (!thumbnailData) return null;
-
-    if (thumbnailData.url) {
-      return thumbnailData.url;
-    }
-
-    if (variant === "card") {
-      return (
-        thumbnailData.formats?.thumbnail?.url ||
-        thumbnailData.formats?.small?.url
-      );
-    }
+    if (!thumbnailData?.url && !thumbnailData?.formats) return null;
     return (
-      thumbnailData.formats?.large?.url || thumbnailData.formats?.medium?.url
+      thumbnailData.url ||
+      thumbnailData.formats?.[variant === "card" ? "small" : "large"]?.url
     );
   };
 
@@ -54,7 +47,6 @@ export default function ArticleImage({ thumbnail, title, variant = "card" }) {
       <img
         src={thumbnailUrl}
         alt={title}
-        onError={(e) => console.error("圖片載入失敗:", thumbnailUrl)}
         style={{
           ...imageStyles,
           objectFit: "cover",

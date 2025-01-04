@@ -34,12 +34,12 @@ function Footer() {
     <Box
       component="footer"
       sx={{
-        background: "transparent",
+        background: "rgba(255, 255, 255, 0.7)",
         backdropFilter: "blur(8px)",
         py: 2,
         position: "static",
         width: "100%",
-        zIndex: 1000,
+        zIndex: 2,
       }}
     >
       <Container
