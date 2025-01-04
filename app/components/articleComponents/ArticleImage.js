@@ -32,6 +32,7 @@ export default function ArticleImage({ thumbnail, title, variant = "card" }) {
       width: "100%",
       height: SIZES.detailImageHeight,
       borderRadius: SIZES.borderRadius.large,
+      objectFit: "contain",
     },
   }[variant];
 
@@ -49,7 +50,7 @@ export default function ArticleImage({ thumbnail, title, variant = "card" }) {
         alt={title}
         style={{
           ...imageStyles,
-          objectFit: "cover",
+          objectFit: variant === "detail" ? "contain" : "cover",
         }}
       />
     </Box>
