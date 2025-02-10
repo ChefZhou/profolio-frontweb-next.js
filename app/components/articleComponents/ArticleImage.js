@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { SIZES } from "../../styles/constants";
+import Image from "next/image";
 
 /**
  * 文章圖片組件
@@ -45,12 +46,19 @@ export default function ArticleImage({ thumbnail, title, variant = "card" }) {
         ...(variant === "detail" && { mb: 4 }),
       }}
     >
-      <img
+      <Image
         src={thumbnailUrl}
-        alt={title}
+        alt={title || "Article image"}
+        width={imageStyles.width}
+        height={imageStyles.height}
         style={{
-          ...imageStyles,
           objectFit: variant === "detail" ? "contain" : "cover",
+          width: "100%",
+          height: "auto",
+        }}
+        priority={variant === "detail"}
+        onError={(e) => {
+          e.target.style.display = "none";
         }}
       />
     </Box>

@@ -1,51 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Typography, Chip, CircularProgress } from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
 import ArticleList from "../components/articleComponents/ArticleList";
-import ArticleAPI from "../api/articleAPI";
 
 function Page() {
-  // 使用狀態管理分類選擇
   const [selectedCategory, setSelectedCategory] = useState("全部");
-  // 使用自定義 Hook 獲取文章資料
-  const { articles, isLoading, error } = ArticleAPI();
 
-  // 載入中狀態處理
-  if (isLoading) {
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", pt: 20 }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  // 錯誤狀態處理
-  if (error) {
-    return (
-      <Box sx={{ pt: 12, textAlign: "center" }}>
-        <Typography color="error">{error}</Typography>
-      </Box>
-    );
-  }
-
-  // 提取並去重分類
-  const categories = [
-    "全部",
-    ...new Set(
-      articles
-        .filter((article) => article?.attributes?.category)
-        .map((article) => article.attributes.category)
-    ),
-  ];
-
-  // 根據所選分類過濾文章
-  const filteredArticles =
-    selectedCategory === "全部"
-      ? articles
-      : articles.filter(
-          (article) => article?.attributes?.category === selectedCategory
-        );
+  // 暫時設定為空陣列
+  const articles = [];
+  const isLoading = false;
+  const categories = [];
 
   return (
     <Box
@@ -76,7 +41,7 @@ function Page() {
       </Box>
 
       {/* 分類選擇區 */}
-      {/* <Box sx={{ mb: 4, display: "flex", gap: 1, flexWrap: "wrap" }}>
+      <Box sx={{ mb: 4, display: "flex", gap: 1, flexWrap: "wrap" }}>
         {categories.map((category) => (
           <Chip
             key={category}
@@ -86,11 +51,13 @@ function Page() {
             sx={{ borderRadius: "8px", "&:hover": { opacity: 0.8 } }}
           />
         ))}
-      </Box> */}
+      </Box>
 
-      {/* 文章列表展示 */}
-      <Box sx={{ mb: 8 }}>
-        <ArticleList articles={filteredArticles} />
+      {/* 顯示建置中訊息 */}
+      <Box sx={{ pt: 4, textAlign: "center" }}>
+        <Typography variant="h5" color="text.secondary">
+          文章內容建置中，敬請期待...
+        </Typography>
       </Box>
     </Box>
   );

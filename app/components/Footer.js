@@ -88,7 +88,7 @@ function Footer() {
               fontSize: { xs: "0.8rem", sm: "0.875rem" },
             }}
           >
-            © {new Date().getFullYear()} Denny's product。
+            © {new Date().getFullYear()} Denny&apos;s product。
           </Typography>
         </Box>
       </Container>

@@ -57,7 +57,7 @@ function Header() {
 
   const NavLinks = () => (
     <>
-      <Link href="/article" passHref>
+      {/* <Link href="/article" passHref>
         <StyledLink>
           <Typography
             variant={isMobile ? "body1" : "h6"}
@@ -69,7 +69,7 @@ function Header() {
             Articles
           </Typography>
         </StyledLink>
-      </Link>
+      </Link> */}
       <Link href="/product" passHref>
         <StyledLink>
           <Typography
@@ -119,7 +119,7 @@ function Header() {
             <Link href="/" passHref>
               <StyledLink>
                 <Typography variant="h6" sx={{ color: "primary.main" }}>
-                  Denny's Blog
+                  Denny&#39;s Blog
                 </Typography>
               </StyledLink>
             </Link>
